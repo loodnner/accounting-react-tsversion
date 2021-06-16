@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -25,11 +26,23 @@ const Wrapper = styled.div`
 `;
 
 const TypeSection:React.FunctionComponent = ()=>{
+  const typeMap = {
+    'consume':'支出',
+    'earn':'收入'
+  }
+  type Keys = keyof typeof typeMap
+  const [typeList] = useState<Keys[]>(['consume','earn'])
+  // 将typeList的类型收缩
+  const [type,setType] = useState<string>('consume')//默认支出
   return(
     <Wrapper>
       <ul>
-          <li className="selected">支出</li>
-          <li>收入</li>
+          {typeList.map(t=>
+           <li className={type===t?'selected':''}
+           onClick={()=>{setType(t)}}>
+             {typeMap[t]}
+           </li>
+            )} 
       </ul>   
     </Wrapper>
   )
