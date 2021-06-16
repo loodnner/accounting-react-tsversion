@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Icon from "./Icon"
 
 const NavWrapper = styled.div`
-  background: white;
+  /* background: white; */
   line-height: 24px;
   box-shadow: 0 0 3px rgba(0,0,0,0.25);
 >ul {
@@ -11,7 +12,20 @@ const NavWrapper = styled.div`
   >li{
     width:33.3333%;
     text-align:center;
-    padding:16px;
+    a{
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 4px 0;
+      justify-content: center;
+      align-items: center;
+    .icon {
+        width: 20px;      
+        height: 20px;
+      }
+    &.selected{
+      font-weight:bold;
+    }
+    }   
   }
 }
 `
@@ -21,13 +35,19 @@ const Nav = ()=>{
         <NavWrapper>
              <ul>
             <li>
-              <Link to="/money">记一笔</Link>
+              <NavLink to="/money" activeClassName="selected">记一笔
+              <Icon iconName = "iconfont icon-money"/>
+              </NavLink>
             </li>
             <li>
-              <Link to="/label">标签</Link>
+              <NavLink to="/label" activeClassName="selected">标签
+              <Icon iconName = "iconfont icon-label"/>
+              </NavLink>
             </li>
             <li>
-              <Link to="/statistics">统计</Link>
+              <NavLink to="/statistics" activeClassName="selected">统计
+              <Icon iconName = "iconfont icon-statistics"/>
+              </NavLink>
             </li>
           </ul>
         </NavWrapper>
@@ -35,4 +55,4 @@ const Nav = ()=>{
 }
 
 
-export default Nav
+export default Nav;
