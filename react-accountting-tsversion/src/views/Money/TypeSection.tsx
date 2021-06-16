@@ -38,7 +38,7 @@ const TypeSection:React.FunctionComponent = ()=>{
     <Wrapper>
       <ul>
           {typeList.map(t=>
-           <li className={type===t?'selected':''}
+           <li key={t} className={type===t?'selected':''}
            onClick={()=>{setType(t)}}>
              {typeMap[t]}
            </li>

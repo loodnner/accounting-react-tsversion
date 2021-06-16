@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
@@ -58,12 +59,63 @@ const Wrapper = styled.section`
 `;
 
 const NumberPadSection:React.FunctionComponent = ()=>{
+  const [output,setOutput] = useState('0')
+  const onButtonClick = (e:React.MouseEvent)=>{
+    const buttonText = (e.target as HTMLButtonElement).textContent
+    if(buttonText===null){return;}
+    switch(buttonText){
+      case  '0':
+      case  '1':
+      case  '2':
+      case  '3':
+      case  '4':
+      case  '5':
+      case  '6':
+      case  '7':
+      case  '8':
+      case  '9':
+        if(output.length>=16){
+          window.alert('太长长长长了，尝试减少一下位数吧')
+          return;
+        }
+          if(output==='0'){
+            setOutput(buttonText)
+          }else{
+            setOutput(output+buttonText)
+          }
+          break;
+      case  '.':
+        if(output.length>=16){
+          window.alert('太长长长长了，尝试减少一下位数吧')
+          return;
+        }
+          if(output.indexOf('.')>=0)
+            {break}
+            else{
+            setOutput(output+'.')
+          }
+          break;
+      case '删除':
+          if(output.length===1){
+            setOutput('0')
+          }else{
+            setOutput(output.slice(0,-1))
+          }
+          break;
+      case '清空':
+         setOutput('0')
+         break;
+      case 'OK':
+    }
+
+
+  }
   return(
     <Wrapper>
       <div className="output">
-          100
+          {output}
         </div>
-        <div className="pad clearfix">
+        <div className="pad clearfix" onClick={onButtonClick}>
           <button>1</button>
           <button>2</button>
           <button>3</button>
