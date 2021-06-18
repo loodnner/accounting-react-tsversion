@@ -24,8 +24,14 @@ const Wrapper = styled.div`
     }
   }
 `;
+type MoneyType = 'consume'|'earn'
 
-const TypeSection:React.FunctionComponent = ()=>{
+type Props = {
+  type: MoneyType,
+  onChange:(type: MoneyType)=>void
+}
+
+const TypeSection:React.FunctionComponent<Props> = (props)=>{
   const typeMap = {
     'consume':'支出',
     'earn':'收入'
@@ -33,13 +39,13 @@ const TypeSection:React.FunctionComponent = ()=>{
   type Keys = keyof typeof typeMap
   const [typeList] = useState<Keys[]>(['consume','earn'])
   // 将typeList的类型收缩
-  const [type,setType] = useState<string>('consume')//默认支出
+  const type = props.type
   return(
     <Wrapper>
       <ul>
           {typeList.map(t=>
            <li key={t} className={type===t?'selected':''}
-           onClick={()=>{setType(t)}}>
+           onClick={()=>{props.onChange(t)}}>
              {typeMap[t]}
            </li>
             )} 

@@ -7,8 +7,9 @@ import {
 } from "react-router-dom";
 import Money from './views/Money';
 import Statistics from './views/Statistics';
-import Label from './views/Label';
+import Tags from './views/Tags';
 import NoMatch from './views/NoMatch';
+import EditTag from 'views/EditTag';
 
 
 
@@ -16,13 +17,16 @@ function App() {
   return (
     <Router>   
       <Switch>
-          <Route path="/label">
-            <Label />
+          <Route exact path="/tags">
+            <Tags />
           </Route>
-          <Route path="/statistics">
+          <Route exact path="/tags/:id">
+            <EditTag />
+          </Route>
+          <Route exact path="/statistics">
             <Statistics />
           </Route>
-          <Route path="/money">
+          <Route exact path="/money">
             <Money />
           </Route>
           <Route exact path="/">

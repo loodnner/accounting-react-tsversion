@@ -40,7 +40,7 @@ const Nav = ()=>{
               </NavLink>
             </li>
             <li>
-              <NavLink to="/label" activeClassName="selected">标签
+              <NavLink to="/tags" activeClassName="selected">标签
               <Icon iconName = "iconfont icon-label"/>
               </NavLink>
             </li>

@@ -1,5 +1,8 @@
+import createId from "lib/createId";
 import { useState } from "react";
 import styled from "styled-components";
+import {useTags} from 'hooks/useTag';
+
 
 const Wrapper = styled.div`
   background: #FFFFFF; 
@@ -37,37 +40,31 @@ const Wrapper = styled.div`
 
 // drts 正常的函数组件+CSS咋安排。。
 
-const TagsSection:React.FunctionComponent = ()=>{
-  const [tags,setTags] = useState<string[]>(['衣','食','住','行'])
-  const onAddTag = ()=>{
-    const tagName = window.prompt('新标签的名称为')
-    //不能重复新增标签
-    if(tagName!==null){
-      if(tags.indexOf(tagName)>=0){
-        window.alert('标签名不能重复')
-      }else{
-      setTags([...tags,tagName])
-    }
-    }
-  }
-  const [selectedTags,onSelectTag] = useState<string[]>([])
-  const onToggleTag = (tag:string)=>{
-    if(selectedTags.indexOf(tag)>=0){
-      onSelectTag((selectedTags.filter(t=>t!==tag)))
+type Props = {
+  selectedTagsId:number[],
+  onChange:(selectedTagsId:number[])=>void
+}
+
+const TagsSection:React.FunctionComponent<Props> = (props)=>{
+  const {tags,addTag} = useTags()
+  const selectedTagsId = props.selectedTagsId
+  const onToggleTag = (tagsId:number)=>{
+    if(selectedTagsId.indexOf(tagsId)>=0){
+      props.onChange((selectedTagsId.filter(t=>t!==tagsId)))
     }else{
-      onSelectTag([...selectedTags,tag])
+      props.onChange([...selectedTagsId,tagsId])
     }
   }
   return(
     <Wrapper>
       <ol>
           {tags.map(tag=>(
-          <li key={tag} onClick= {()=>{onToggleTag(tag)}} className={selectedTags.indexOf(tag)>=0 ? 'selected':''}>
-            {tag}
+          <li key={tag.id} onClick= {()=>{onToggleTag(tag.id)}} className={selectedTagsId.indexOf(tag.id)>=0 ? 'selected':''}>
+            {tag.name}
           </li>
           ))}
       </ol>
-      <button onClick={onAddTag}>新增标签</button>
+      <button onClick={addTag}>新增标签</button>
     </Wrapper>
   )
 }
