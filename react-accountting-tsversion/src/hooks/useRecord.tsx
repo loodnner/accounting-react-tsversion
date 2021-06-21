@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import useUpdate from "./useUpdate"
 
-type RecordItem = {
+export type RecordItem = {
     tagsId:number[],
      notes:string,
      type:'consume'|'earn',

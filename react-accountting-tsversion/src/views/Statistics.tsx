@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import day from 'dayjs'
 import { TypeSection } from './Money/TypeSection';
 import styled from 'styled-components';
-import { useRecord } from 'hooks/useRecord';
+import { RecordItem, useRecord } from 'hooks/useRecord';
 import { useTags } from 'hooks/useTag';
 
 // 支出收入组件
@@ -28,21 +28,51 @@ font-size: 14px;
 color:#999;
 }
 `
+const Header = styled.h3`
+  font-weight:normal;
+  font-size: 18px;
+  line-height: 20px;
+  padding:10px 16px;
+`
 
 function Statistics() {
   const [type,setType] = useState<'consume'|'earn'>('consume')
   const {records} = useRecord()
   const {getTagName} = useTags()
+  const hash:{[K:string]:RecordItem[]} = {}
+  const selectedRecords = ()=>{
+    return records.filter(r=>r.type===type)
+  }
+  selectedRecords().map(r=>{
+    const key = day(r.createDate).format('YYYY年MM月DD日')
+    if(!(key in hash)){
+      hash[key] = []
+    }
+    hash[key].push(r)
+  })
+
+  const array = Object.entries(hash).sort((a,b)=>{
+    if(a[0]===b[0]) return 0
+    if(a[0]>b[0]) return -1
+    if(a[0]<b[0]) return 1 
+    return 0
+  })
+
   return (
     <Layout>
       <TypeWrapper>
       <TypeSection  type = {type}
                    onChange = {(type)=>setType(type)}/>
      </TypeWrapper>
-      <div>
+    {
+      array.map(([date,records])=><div>
+        <Header>
+          {date}
+        </Header>
+        <div>
           {records.map(r=>{
             return(
-              <Item>
+              <Item key={r.createDate}>
                 <div className="tags">
                   {r.tagsId.map(r=>getTagName(r)).join('/')}
                 </div>
@@ -53,12 +83,13 @@ function Statistics() {
                 <div className="amount">
                 ￥{r.amount}
                 </div>
-            {/* {day(r.createDate).format('YYYY-MM-DD')} */}
             </Item>
             )
           })
           }
       </div>
+      </div>)
+    }
     </Layout>
   );
 }
