@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import generateOutput from './NumberPadSection/generateOutput'
 import {Wrapper} from './NumberPadSection/Wrapper'
 
 type Props = {
@@ -9,64 +10,30 @@ type Props = {
 // 输入小数点后，amount是number所以展示不清晰的问题木有解决
 const NumberPadSection:React.FunctionComponent<Props> = (props)=>{
   const [output,_setOutput] = useState(props.amount.toString())
-  const setOutput = (buttonText:string)=>{
-    if(buttonText!=='.'){
-      _setOutput(buttonText)
-    props.onChange(parseFloat(buttonText))
+  const setOutput = (output:string)=>{
+    let newOutput:string
+    if(output.length>=16){
+      newOutput = output.slice(0,16)
+    }else if(output.length===0){
+      newOutput = '0'
+    }else {
+      newOutput = output
     }
-  }
-  const onButtonClick = (e:React.MouseEvent)=>{
-    const buttonText = (e.target as HTMLButtonElement).textContent
-    if(buttonText===null){return;}
-    switch(buttonText){
-      case  '0':
-      case  '1':
-      case  '2':
-      case  '3':
-      case  '4':
-      case  '5':
-      case  '6':
-      case  '7':
-      case  '8':
-      case  '9':
-        if(output.length>=16){
-          window.alert('太长长长长了，尝试减少一下位数吧')
-          return;
-        }
-          if(output==='0'){
-            setOutput(buttonText)
-          }else{
-            setOutput(output+buttonText)
-          }
-          break;
-      case  '.':
-        if(output.length>=16){
-          window.alert('太长长长长了，尝试减少一下位数吧')
-          return;
-        }
-          if(output.indexOf('.')>=0)
-            {break}
-            else{
-            setOutput(output+'.')
-          }
-          break;
-      case '删除':
-          if(output.length===1){
-            setOutput('0')
-          }else{
-            setOutput(output.slice(0,-1))
-          }
-          break;
-      case '清空':
-         setOutput('0')
-         break;
-      case 'OK':
-        if(props.onOk)
-        {props.onOk()}
-        break;
+    _setOutput(newOutput)
+    props.onChange(parseFloat(newOutput))
+    }
 
+  const onButtonClick = (e: React.MouseEvent) => {
+    const text = (e.target as HTMLButtonElement).textContent;
+    if (text === null) {return;}
+    if (text === 'OK') {
+      if (props.onOk) {props.onOk();}
+      return;
     }
-  }
+    if ('0123456789.'.split('').concat(['删除', '清空']).indexOf(text) >= 0) {
+      setOutput(generateOutput(text, output));
+    }}
+
   return(
     <Wrapper>
       <div className="output">

@@ -53,7 +53,13 @@ const useTags = () => {
     }
   }
 
-  return {tags,addTag,findTag,updateTag,deleteTag};
+  const getTagName = (tagId:number)=>{
+    const tag = tags.filter(t=>t.id===tagId)[0]
+    return tag.name
+  }
+
+
+  return {tags,addTag,findTag,updateTag,deleteTag,getTagName};
 };
 
 export {useTags};

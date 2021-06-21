@@ -11,6 +11,10 @@ const MyLayout = styled(Layout)`
   display:flex;
   flex-direction: column;
 `
+const TypeWrapper = styled.div`
+  background-color: #c4c4c4;
+`
+
 type MoneyType = 'consume'|'earn'
 
 const defaultRecordValue = {
@@ -46,13 +50,15 @@ function Money() {
                    onChange = {tagsId=>onChange({tagsId})}/>       
       <NoteSection  notes = {selectedRecord.notes}
                    onChange = {notes=>onChange({notes})}/>
+      <TypeWrapper>
       <TypeSection  type = {selectedRecord.type}
                    onChange = {type=>onChange({type})}/>
+      </TypeWrapper>
       <NumberPadSection  amount = {selectedRecord.amount}
                    onChange = {amount=>onChange({amount})}
                    onOk = {submit}/>
     </MyLayout>
-    // numberpad的onchange用的是string的类型
+    // numberpad的onchange用的是string的类型;drts这边ok没有清空数据！因为value已经set了
   );
 }
 
