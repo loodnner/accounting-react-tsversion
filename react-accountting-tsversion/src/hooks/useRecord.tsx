@@ -20,7 +20,7 @@ useEffect(()=>{
 // 监听数据变化 drts不加括号就会warning，监听的对象不能变化
 useUpdate(()=>{
     window.localStorage.setItem('records',JSON.stringify(records))
-},[records])
+},records)
 
 
 const addRecord =(newRecord:newRecordItem)=>{

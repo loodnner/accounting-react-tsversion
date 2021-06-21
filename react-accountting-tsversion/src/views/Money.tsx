@@ -45,7 +45,7 @@ function Money() {
  }
 
   return (
-    <MyLayout>
+    <MyLayout scrollTop = {9999}>
       <TagsSection selectedTagsId = {selectedRecord.tagsId}
                    onChange = {tagsId=>onChange({tagsId})}/>       
       <NoteSection  notes = {selectedRecord.notes}

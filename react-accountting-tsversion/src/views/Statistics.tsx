@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import day from 'dayjs'
 import { TypeSection } from './Money/TypeSection';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ function Statistics() {
   const selectedRecords = ()=>{
     return records.filter(r=>r.type===type)
   }
-  selectedRecords().map(r=>{
+  selectedRecords().forEach(r=>{
     const key = day(r.createDate).format('YYYY年MM月DD日')
     if(!(key in hash)){
       hash[key] = []
@@ -73,8 +73,13 @@ function Statistics() {
           {records.map(r=>{
             return(
               <Item key={r.createDate}>
-                <div className="tags">
-                  {r.tagsId.map(r=>getTagName(r)).join('/')}
+                <div className="tags" >
+                {r.tagsId
+                  .map(tagId => <span key={tagId}>{getTagName(tagId)}</span>)
+                  .reduce((result, span, index, array) =>
+                    result.concat(index < array.length - 1 ? [span, '，'] : [span]), [] as ReactNode[])
+                }
+                  {/* {r.tagsId.map(r=>getTagName(r)).join('/')} */}
                 </div>
                 {r.notes && <div className="notes">
                   {r.notes}

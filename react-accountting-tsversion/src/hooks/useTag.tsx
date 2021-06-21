@@ -1,7 +1,6 @@
 import useUpdate from 'hooks/useUpdate';
 import createId from 'lib/createId';
-import {useEffect, useRef, useState} from 'react';
-import Tags from 'views/Tags';
+import {useEffect, useState} from 'react';
 
 
 type TagItem = {
@@ -27,7 +26,7 @@ const useTags = () => {
 
   useUpdate(()=>{
     window.localStorage.setItem('tags',JSON.stringify(tags))
-  },[tags]);
+  },tags);
   
 
 
