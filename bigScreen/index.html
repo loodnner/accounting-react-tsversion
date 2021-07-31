@@ -8,7 +8,7 @@
   <script>
   const deviceWidth = document.documentElement.clientWidth
   const deviceHeight = document.documentElement.clientHeight
-  const pageWidth = deviceWidth/deviceHeight>16/9 ? deviceHeight*16/9: deviceWidth
+  window.pageWidth = deviceWidth/deviceHeight>16/9 ? deviceHeight*16/9: deviceWidth
   const pageHeight = pageWidth*9/16
   console.log(pageHeight,pageWidth)
   const string = `<style>
@@ -26,9 +26,8 @@
 </div>
 <script>
   const root = document.querySelector('#root')
-  root.style.width = pageWidth + 'px'
   root.style.height = pageHeight + 'px'
-  root.style.marginTop = (deviceHeight-pageHeight)/2 + 'px' //上下居中
+  root.style.marginTop = (deviceHeight-pageHeight)/2 + 'px' //上下居中drts
 </script>
 <script type="module" src="/src/main.tsx"></script>
 </body>
